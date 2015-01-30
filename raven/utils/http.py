@@ -48,7 +48,9 @@ def urlopen(url, data=None, timeout=defaults.TIMEOUT, ca_certs=None,
     if verify_ssl:
         handlers = [ValidHTTPSHandler]
     else:
-        handlers = []
+        ssl_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        ssl_context.verify_mode = ssl.CERT_NONE
+        handlers = [urllib2.HTTPSHandler(context=ssl_context)]
 
     opener = urllib2.build_opener(*handlers)
 
